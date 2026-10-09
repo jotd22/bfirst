@@ -298,10 +298,10 @@ route();
 </script>
 <script>
 /* Designer credit */
-(function(){var T="Designed by Yohanes Tadesse",CSS="position:fixed;left:12px;bottom:calc(10px + env(safe-area-inset-bottom,0px));z-index:2147483647;display:block;visibility:visible;opacity:.85;pointer-events:none;background:rgba(7,9,8,.78);color:#fbd406;font:600 11px/1 Inter,system-ui,sans-serif;letter-spacing:.04em;padding:7px 12px;border-radius:99px;border:1px solid rgba(251,212,6,.45);transform:none;width:auto;height:auto;margin:0;clip-path:none";
-function fix(){var d=document.getElementById("dby");if(!d){d=document.createElement("div");d.id="dby";document.body.appendChild(d)}
-if(d.textContent!==T)d.textContent=T;if(d.getAttribute("style")!==CSS)d.setAttribute("style",CSS);if(d.parentNode!==document.body)document.body.appendChild(d);
-var ff=document.getElementById("dby-f");var ft=document.querySelector("footer .w");if(ft&&!ff){ff=document.createElement("p");ff.id="dby-f";ft.appendChild(ff)}if(ff&&ff.textContent!==T)ff.textContent=T}
+(function(){var T="Designed by Yohanes Tadesse",CSS="display:block;margin:14px 0 0;color:#fbd406;font:600 .85rem Inter,system-ui,sans-serif;letter-spacing:.04em;visibility:visible;opacity:1";
+function fix(){var old=document.getElementById("dby");if(old)old.remove();
+var ft=document.querySelector("footer .w");if(!ft)return;var d=document.getElementById("dby-f");if(!d){d=document.createElement("p");d.id="dby-f";ft.appendChild(d)}
+if(d.textContent!==T)d.textContent=T;if(d.getAttribute("style")!==CSS)d.setAttribute("style",CSS);if(d.parentNode!==ft)ft.appendChild(d)}
 fix();setInterval(fix,1000);try{new MutationObserver(fix).observe(document.documentElement,{childList:true,subtree:true,attributes:true,characterData:true})}catch(e){}})();
 </script>
 </body>
