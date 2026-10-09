@@ -228,8 +228,9 @@ addEventListener('hashchange',route);
 
 /* ---- database (registrations) ---- */
 let col=null;
-(async()=>{try{const db=await claude.use("db");if(db){col=db.collection("registrations");
- const sd=await db.doc("site/content").get();if(sd.exists){Object.assign(SITE,JSON.parse(sd.data().json));render()}loadPhotos()}}catch(e){}})();
+var CONTENT_OK=false;
+var CONTENT_READY=(async()=>{try{const db=await claude.use("db");if(db){col=db.collection("registrations");
+ const sd=await db.doc("site/content").get();if(sd.exists){Object.assign(SITE,JSON.parse(sd.data().json));render()}CONTENT_OK=true;loadPhotos()}}catch(e){}})();
 const msg=d=>`New registration – ${SITE.name}\nPlayer: ${d.player}\nPhone: ${d.phone}\nAge: ${d.age}\nSchool/Grade: ${d.school||"-"} / ${d.grade||"-"}\nBranch: ${d.branch}\nResidence: ${d.residence||"-"}\nPosition: ${d.pos}\nMedical: ${d.medical}\nMedical notes: ${d.medNotes||"-"}\nParent: ${d.parent||"-"}`;
 $('f').addEventListener('change',e=>{if(e.target.name==='med'&&e.target.checked)document.querySelectorAll('#f input[name=med]').forEach(x=>{if(x!==e.target&&(e.target.value==='No problem'||x.value==='No problem'))x.checked=false})});
 $('f').onsubmit=async e=>{e.preventDefault();const d=Object.fromEntries(new FormData($('f')));delete d.med;d.medical=[...document.querySelectorAll('#f input[name=med]:checked')].map(x=>x.value).join(", ");if(!d.medical){const w=$('ok');w.textContent='Please choose a medical status (select "No problem" if there is none).';w.classList.remove('hide');return}const o=$('ok');o.classList.remove('hide');
@@ -252,7 +253,7 @@ $('ed').onclick=e=>{const t=e.target;if(t.dataset.mv){const d=t.parentNode,up=t.
 function readEd(){const o={};document.querySelectorAll('#ed input[data-k]').forEach(el=>o[el.dataset.k]=el.value);
  document.querySelectorAll('#ed fieldset[data-k]').forEach(f=>{const k=f.dataset.k,nest=Array.isArray(ORIG[k][0]);const r=[...f.querySelectorAll('.er')].map(d=>[...d.querySelectorAll('input')].map(i=>i.value.trim())).filter(x=>x.some(Boolean));o[k]=nest?r:r.map(x=>x[0]);if(!o[k].length)o[k]=ORIG[k]});o.theme={};document.querySelectorAll('#ed [data-th]').forEach(i=>o.theme[i.dataset.th]=i.value);o.layout=[...document.querySelectorAll('#ed [data-sec]')].map(d=>[d.dataset.sec,d.querySelector('input').checked?1:0,d.querySelector('span').textContent]);return o}
 function note(t){const n=$('sm');n.textContent=t;n.classList.remove('hide')}
-$('sv').onclick=async e=>{e.preventDefault();try{const db=await claude.use("db"),o=readEd();await db.doc("site/content").set({json:JSON.stringify(o)});Object.assign(SITE,o);render();note("✓ Saved. Your website is updated.")}catch(x){note("Could not save. Please try again.")}};
+$('sv').onclick=async e=>{e.preventDefault();if(!CONTENT_OK){note("Your saved content has not loaded yet. Please refresh this page and try again.");return}try{const db=await claude.use("db"),o=readEd();await db.doc("site/content").set({json:JSON.stringify(o)});Object.assign(SITE,o);render();note("✓ Saved. Your website is updated.")}catch(x){note("Could not save. Please try again.")}};
 $('rs').onclick=async e=>{e.preventDefault();if(!confirm("Reset all text to the original?"))return;try{const db=await claude.use("db");await db.doc("site/content").delete();Object.assign(SITE,JSON.parse(JSON.stringify(ORIG)));render();buildEd();note("Reset done.")}catch(x){note("Could not reset.")}};
 /* ---- photos ---- */
 var PHOTOS=[];
@@ -269,7 +270,7 @@ function showLogin(){const m=$('am');m.classList.remove('hide');m.innerHTML='<fo
 async function initAdmin(){if(adminInit)return;const m=$('am');
  try{const u=await claude.use("user"),db=await claude.use("db");
   if(!db||!u||!u.canEdit()){showLogin();return}
-  adminInit=true;m.classList.add('hide');buildEd();$('ab2').classList.remove('hide');
+  await CONTENT_READY;adminInit=true;m.classList.add('hide');buildEd();$('ab2').classList.remove('hide');
   db.collection("registrations").onSnapshot(s=>{all=s.docs.map(d=>({...d.data(),uid:d.id,rid:d.id})).sort((a,b)=>(b.created||"").localeCompare(a.created||""));draw()},err=>{m.classList.remove('hide');m.textContent="Could not load registrations."});
  }catch(e){showLogin()}}
 const age=d=>{const t=new Date(d);return isNaN(t)?"":Math.floor((Date.now()-t)/31557600000)};
