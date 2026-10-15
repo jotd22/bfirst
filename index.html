@@ -61,6 +61,32 @@ footer{background:var(--dk);color:#a3aa9f;padding:64px 0 30px;font-size:.9rem;bo
 .rv{opacity:0;transform:translateY(24px);transition:.7s}.rv.in{opacity:1;transform:none}
 .tw{overflow-x:auto;margin-top:24px;border:1px solid var(--line);border-radius:18px}table{width:100%;border-collapse:collapse;min-width:820px;background:var(--card)}
 th,td{padding:13px 14px;text-align:left;border-bottom:1px solid var(--line);font-size:.9rem;vertical-align:top}th{font-size:.75rem;text-transform:uppercase;letter-spacing:.08em;color:var(--mut)}
+
+.bar{position:sticky;top:calc(69px + env(safe-area-inset-top,0px));z-index:15;background:var(--bg);padding:10px 0 6px;margin-top:14px;border-bottom:1px solid var(--line)}
+.bar input,.bar select{font-size:16px;padding:12px}
+.chips2{display:flex;gap:8px;overflow-x:auto;padding:10px 0 4px;-webkit-overflow-scrolling:touch;scrollbar-width:none}.chips2::-webkit-scrollbar{display:none}
+.fc{flex:0 0 auto;border:1.5px solid var(--line);background:var(--card);color:var(--tx);border-radius:99px;padding:0 14px;min-height:42px;font:600 .85rem Inter,sans-serif;cursor:pointer;display:inline-flex;align-items:center;gap:8px}
+.fc b{background:var(--line);border-radius:99px;padding:1px 8px;font-size:.78rem}.fc.on{background:var(--gold);border-color:var(--gold);color:#070908}.fc.on b{background:rgba(0,0,0,.18)}
+.cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,350px),1fr));gap:14px;margin-top:16px}
+.pc{background:var(--card);border:1px solid var(--line);border-left:6px solid var(--gold);border-radius:18px;padding:16px;min-width:0}
+.pc.g-new{border-left-color:var(--red)}.pc.g-paid{border-left-color:var(--grn)}.pc.g-declined{border-left-color:#777}
+.pc-h{display:flex;justify-content:space-between;gap:10px;align-items:flex-start}
+.pc-n{font:800 1.7rem/1 'Barlow Condensed',sans-serif;text-transform:uppercase;word-break:break-word}
+.pc-s{color:var(--mut);font-size:.88rem;margin-top:4px}
+.bdc{display:grid;gap:5px;justify-items:end;flex:0 0 auto}
+.bd{font:700 .7rem Inter,sans-serif;letter-spacing:.05em;text-transform:uppercase;border-radius:99px;padding:4px 10px;white-space:nowrap;background:var(--line);color:var(--tx)}
+.bd.s-new{background:var(--red);color:#fff}.bd.s-wait{background:var(--gold);color:#070908}.bd.s-paid,.bd.ok{background:var(--grn);color:#070908}.bd.no{background:transparent;border:1.5px solid var(--red);color:var(--red)}
+.pc-call{display:flex;align-items:center;justify-content:center;gap:8px;min-height:48px;margin:12px 0 8px;border-radius:12px;background:var(--bg);border:1.5px solid var(--line);text-decoration:none;font:700 1.15rem Inter,sans-serif;letter-spacing:.02em}
+.pc-i{margin:0;display:grid;gap:4px}.pc-i div{display:flex;gap:10px;font-size:.9rem}.pc-i dt{flex:0 0 78px;color:var(--mut)}.pc-i dd{margin:0;min-width:0;word-break:break-word}
+.pc-med{margin-top:10px;padding:9px 12px;border-radius:10px;font-size:.88rem;font-weight:600}.pc-med small{display:block;font-weight:400;margin-top:2px}
+.pc-med.good{background:rgba(46,211,0,.12);color:var(--tx)}.pc-med.bad{background:rgba(255,26,26,.14);color:var(--red)}
+.pc-rc{display:flex;align-items:center;gap:12px;width:100%;margin-top:10px;padding:8px;border-radius:12px;border:1.5px solid var(--line);background:var(--bg);color:var(--tx);cursor:pointer;font:600 .9rem Inter,sans-serif;min-height:60px;text-align:left}
+.pc-rc img{width:56px;height:56px;object-fit:cover;border-radius:8px}.pc-nr{margin-top:10px;color:var(--mut);font-size:.85rem}
+.pc-last{margin-top:8px;font-size:.8rem;color:var(--mut)}
+.pc-a{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:12px}
+.pc-a .btn{justify-content:center;min-height:50px;padding:10px 8px;font-size:.9rem;text-align:center;line-height:1.15;width:100%}.pc-a .wide{grid-column:1/-1}
+.pc-m{margin-top:12px;border:0;padding:0}.pc-m summary{font:600 .9rem Inter,sans-serif;text-transform:none;min-height:44px;display:flex;align-items:center;color:var(--mut)}
+.pc-m label{margin-top:12px}.pc-m select{font-size:16px;padding:12px}.pc-m .del{margin-top:12px;width:100%;justify-content:center;min-height:48px;color:var(--red)!important;border-color:var(--red)}
 </style>
 </head>
 <body>
@@ -120,8 +146,10 @@ th,td{padding:13px 14px;text-align:left;border-bottom:1px solid var(--line);font
 
 <div id="adm" class="hide"><section><div class="w"><span class="eb">Admin</span> <button class="btn g sm" onclick="adminLogout()">Log out</button><h2>Registered players</h2>
 <div id="am" class="lead">Loading…</div>
-<div id="ab2" class="hide"><div style="display:flex;gap:12px;flex-wrap:wrap;margin-top:20px"><input id="srch" placeholder="Search name, phone, program…" style="max-width:340px"><button class="btn g sm" id="csv">Download CSV</button><span id="cnt" class="lead" style="align-self:center"></span></div>
-<div class="tw"><table><thead><tr><th>Date</th><th>Player</th><th>Age / school</th><th>Branch / area</th><th>Medical</th><th>Parent</th><th>Phone / email</th><th>Plan / receipt</th><th>Status</th><th></th></tr></thead><tbody id="rows"></tbody></table></div></div>
+<div id="ab2" class="hide">
+<div class="bar"><div style="display:flex;gap:8px"><input id="srch" type="search" placeholder="Search players…" style="flex:1;min-width:0"><select id="brs" style="width:auto;flex:0 0 auto"><option value="">All branches</option><option>Bulbula</option><option>CMC</option></select></div><div class="chips2" id="chips2"></div></div>
+<div style="display:flex;justify-content:space-between;align-items:center;gap:10px;margin-top:12px"><span id="cnt" class="lead" style="font-size:.9rem"></span><button class="btn g sm" id="csv">Download CSV</button></div>
+<div id="rows" class="cards"></div></div>
 <div id="edw" class="hide" style="margin-top:60px"><span class="eb">Website editor</span><h2 style="font-size:2.4rem">Edit your website</h2>
 <p class="lead">Edit any text, add (+ Add) or remove (✕) items, then press Save changes. The site updates right away.</p>
 <h3 style="margin-top:30px">Gallery photos</h3><p class="lead">Add photos from your phone or computer. They show on the website gallery.</p><input type="file" id="up" accept="image/*" multiple style="max-width:340px"><div id="phg" class="pg"></div><h3 style="margin-top:40px">Website text &amp; lists</h3><form id="ed" style="max-width:820px"></form><div style="margin-top:16px"><button class="btn" id="sv">Save changes</button> <button class="btn g" id="rs">Reset to original</button></div><div id="sm" class="msg hide"></div></div>
@@ -284,13 +312,51 @@ async function initAdmin(){if(adminInit)return;const m=$('am');
   db.collection("registrations").onSnapshot(s=>{all=s.docs.map(d=>({...d.data(),uid:d.id,rid:d.id})).sort((a,b)=>(b.created||"").localeCompare(a.created||""));draw()},err=>{m.classList.remove('hide');m.textContent="Could not load registrations."});
  }catch(e){showLogin()}}
 const age=d=>{const t=new Date(d);return isNaN(t)?"":Math.floor((Date.now()-t)/31557600000)};
-function draw(){const q=$('srch').value.toLowerCase();const L=all.filter(r=>JSON.stringify(r).toLowerCase().includes(q));$('cnt').textContent=L.length+" of "+all.length+" players";
- $('rows').innerHTML=L.map(r=>`<tr><td>${E((r.created||"").slice(0,10))}</td><td><b>${E(r.player)}</b><br><small>${E(r.pos)}</small></td><td>${E(r.age)}<br><small>${E(r.school)}${r.grade?" · "+E(r.grade):""}</small></td><td><b>${E(r.branch)}</b><br><small>${E(r.residence)}</small></td><td>${r.medical&&r.medical!=="No problem"?`<b style="color:var(--red)">${E(r.medical)}</b>`:"No problem"}<br><small>${E(r.medNotes)}</small></td><td>${E(r.parent)}</td><td>${E(r.phone)}<br><small>${E(r.email)}</small></td><td>${E(r.plan)}<br><small>${E(r.amount)}</small><br><b style="color:${r.pay==="Paid"||r.status==="Paid"||r.status==="Enrolled"?"var(--grn)":"var(--red)"}">${r.pay==="Paid"||r.status==="Paid"||r.status==="Enrolled"?"✓ PAID":"UNPAID"}</b><br>${r.receipt?`<a href="#" data-r="${r.uid}">View receipt</a>`:"<small>No receipt</small>"}</td><td><select data-s="${r.uid}|${r.rid}">${STATUSES.map(s=>`<option${s===r.status?" selected":""}>${s}</option>`).join("")}</select></td><td><div class="acts"><button class="btn sm" data-m="accept" data-id="${r.uid}">Accept + SMS</button><button class="btn sm" style="background:var(--grn)" data-m="paid" data-id="${r.uid}">✓ Paid + SMS</button><button class="btn sm r" data-m="unpaid" data-id="${r.uid}">✗ Not paid + SMS</button><button class="btn g sm" data-m="unclear" data-id="${r.uid}">Receipt unclear</button><button class="btn g sm" data-m="declined" data-id="${r.uid}">Decline + SMS</button></div> <button class="btn g sm" data-d="${r.uid}|${r.rid}">Delete</button></td></tr>`).join("")||`<tr><td colspan="10">No registrations yet.</td></tr>`}
-$('srch').oninput=draw;
-$('rows').onchange=async e=>{const k=e.target.dataset.s;if(k){const db=await claude.use("db");db.collection("registrations").doc(k.split("|")[0]).update({status:e.target.value})}};
+function draw(){
+ const q=$('srch').value.toLowerCase(),br=$('brs').value;
+ const cnt={all:all.length,new:0,wait:0,paid:0,declined:0};all.forEach(r=>cnt[grp(r)]++);
+ $('chips2').innerHTML=CH.map(c=>`<button class="fc${FLT===c[0]?" on":""}" data-f="${c[0]}">${c[1]} <b>${cnt[c[0]]}</b></button>`).join("");
+ const L=all.filter(r=>(FLT==="all"||grp(r)===FLT)&&(!br||r.branch===br)&&(!q||[r.player,r.phone,r.parent,r.branch,r.residence,r.school,r.grade,r.plan,r.medical,r.email].join(" ").toLowerCase().includes(q)));
+ $('cnt').textContent="Showing "+L.length+" of "+all.length;
+ $('rows').innerHTML=L.map(card).join("")||`<p class="lead" style="grid-column:1/-1">${all.length?"No players match this filter.":"No registrations yet."}</p>`}
 const ph=p=>{let d=String(p||"").replace(/\D/g,"");if(d.startsWith("251"))return d;if(d.startsWith("0"))return "251"+d.slice(1);if(d.length===9)return "251"+d;return d};
-const smsTxt=r=>SITE.smsTemplate.replace('{parent}',r.parent||'Parent/Guardian').replace('{player}',r.player).replace('{account}',SITE.bankAccount).replace('{telegram}',SITE.telegram);
-$('rows').onclick=async e=>{const rk=e.target.dataset.r;if(rk){e.preventDefault();const r=all.find(x=>x.uid===rk);if(r){const w=window.open('');w.document.write('<img src="'+r.receipt+'" style="max-width:100%">')}return}const mk=e.target.dataset.m;if(mk){const r=all.find(x=>x.uid===e.target.dataset.id);if(!r)return;const SM={accept:['smsTemplate','Accepted'],paid:['smsPaid','Paid'],unpaid:['smsUnpaid','Accepted'],unclear:['smsUnclear','Accepted'],declined:['smsDeclined','Declined']},c=SM[mk];const txt=String(SITE[c[0]]||'').replace(/\{parent\}/g,r.parent||'Parent/Guardian').replace(/\{player\}/g,r.player).replace(/\{account\}/g,SITE.bankAccount).replace(/\{telegram\}/g,SITE.telegram).replace(/\{amount\}/g,r.amount||'').replace(/\{plan\}/g,r.plan||'');const db=await claude.use('db');db.collection('registrations').doc(r.uid).update({status:c[1],pay:mk==='paid'?'Paid':'Unpaid'});location.href='sms:+'+ph(r.phone)+(/iPhone|iPad/.test(navigator.userAgent)?'&':'?')+'body='+encodeURIComponent(txt);return}const k=e.target.dataset.d;if(k&&confirm("Delete this registration?")){const db=await claude.use("db");db.collection("registrations").doc(k.split("|")[0]).delete()}};
+const isPaid=r=>r.pay==="Paid"||r.status==="Paid"||r.status==="Enrolled";
+const grp=r=>isPaid(r)?"paid":r.status==="Declined"?"declined":r.status==="Accepted"?"wait":"new";
+const GL={new:"To review",wait:"Awaiting payment",paid:"Paid",declined:"Declined"};
+const CH=[["all","All"],["new","To review"],["wait","Awaiting payment"],["paid","Paid"],["declined","Declined"]];
+let FLT="all";const OPEN=new Set();
+const fdt=iso=>{try{return new Date(iso).toLocaleString("en-GB",{day:"numeric",month:"short",hour:"2-digit",minute:"2-digit"})}catch(e){return ""}};
+const fill=(t,r)=>String(t||"").replace(/\{parent\}/g,()=>r.parent||"Parent/Guardian").replace(/\{player\}/g,()=>r.player||"").replace(/\{account\}/g,()=>SITE.bankAccount||"").replace(/\{telegram\}/g,()=>SITE.telegram||"").replace(/\{amount\}/g,()=>r.amount||"").replace(/\{plan\}/g,()=>r.plan||"");
+function card(r){const g=grp(r),paid=isPaid(r),med=r.medical&&r.medical!=="No problem",id=E(r.uid);
+ const row=(k,v)=>v?`<div><dt>${k}</dt><dd>${E(v)}</dd></div>`:"";
+ return `<article class="pc g-${g}"><div class="pc-h"><div><div class="pc-n">${E(r.player)}</div><div class="pc-s">${E([r.age?r.age+" yrs":"",r.pos,r.branch].filter(Boolean).join(" · "))}</div></div><div class="bdc"><span class="bd s-${g}">${GL[g]}</span><span class="bd ${paid?"ok":"no"}">${paid?"✓ Paid":"Unpaid"}</span></div></div>
+<a class="pc-call" href="tel:+${ph(r.phone)}">📞 ${E(r.phone)}</a>
+<dl class="pc-i">${row("Parent",r.parent)}${row("Area",r.residence)}${row("School",[r.school,r.grade].filter(Boolean).join(" · "))}${row("Plan",[r.plan,r.amount].filter(Boolean).join(" · "))}${row("Email",r.email)}${row("Registered",fdt(r.created))}</dl>
+<div class="pc-med ${med?"bad":"good"}">${med?"⚠ "+E(r.medical):"✓ No medical problem"}${r.medNotes?`<small>${E(r.medNotes)}</small>`:""}</div>
+${r.receipt?`<button class="pc-rc" data-r="${id}"><img src="${r.receipt}" alt=""><span>View receipt</span></button>`:`<div class="pc-nr">No receipt uploaded</div>`}
+${r.last?`<div class="pc-last">Last SMS: ${E(r.last)}${r.lastAt?" · "+E(fdt(r.lastAt)):""}</div>`:""}
+<div class="pc-a">${paid?`<button class="btn wide" style="background:var(--grn)" data-m="paid" data-id="${id}">✓ Resend payment confirmation SMS</button>`:`<button class="btn wide" data-m="accept" data-id="${id}">✉ Accepted + SMS</button><button class="btn" style="background:var(--grn)" data-m="paid" data-id="${id}">✓ Paid + SMS</button><button class="btn r" data-m="unpaid" data-id="${id}">✗ Not paid + SMS</button>`}</div>
+<details class="pc-m" data-u="${id}"${OPEN.has(r.uid)?" open":""}><summary>More options</summary><div class="pc-a" style="margin-top:4px"><button class="btn g" data-m="unclear" data-id="${id}">Receipt unclear SMS</button><button class="btn g" data-m="declined" data-id="${id}">Decline + SMS</button></div><label>Status<select data-s="${id}">${STATUSES.map(s=>`<option${s===r.status?" selected":""}>${s}</option>`).join("")}</select></label><button class="btn g del" data-d="${id}">Delete registration</button></details></article>`}
+function toast(t){let d=$("tst");if(!d){d=document.createElement("div");d.id="tst";d.style.cssText="position:fixed;left:50%;transform:translateX(-50%);bottom:calc(20px + env(safe-area-inset-bottom,0px));z-index:2000;background:#070908;color:#fbd406;border:1px solid #fbd406;border-radius:99px;padding:12px 20px;font:600 .9rem Inter,sans-serif;max-width:90vw;text-align:center";document.body.appendChild(d)}d.textContent=t;d.style.display="block";clearTimeout(d._t);d._t=setTimeout(()=>d.style.display="none",4000)}
+function showImg(src){const o=document.createElement("div");o.style.cssText="position:fixed;inset:0;z-index:2000;background:rgba(0,0,0,.93);display:grid;place-items:center;padding:12px;overflow:auto";o.innerHTML='<img alt="" style="max-width:100%;max-height:90vh;border-radius:12px"><button class="btn" style="position:fixed;top:calc(12px + env(safe-area-inset-top,0px));right:12px">✕ Close</button>';o.querySelector("img").src=src;o.onclick=()=>o.remove();document.body.appendChild(o)}
+$("srch").oninput=draw;$("brs").onchange=draw;
+$("chips2").onclick=e=>{const b=e.target.closest("[data-f]");if(b){FLT=b.dataset.f;draw()}};
+$("rows").addEventListener("toggle",e=>{const d=e.target;if(d&&d.dataset&&d.dataset.u){d.open?OPEN.add(d.dataset.u):OPEN.delete(d.dataset.u)}},true);
+async function upd(id,data){try{const db=await claude.use("db");await db.collection("registrations").doc(id).update(data)}catch(x){toast("Could not save. Check your internet.")}}
+$("rows").onchange=e=>{const id=e.target.dataset.s;if(id){const v=e.target.value;upd(id,{status:v,pay:(v==="Paid"||v==="Enrolled")?"Paid":"Unpaid"})}};
+const SM={accept:["smsTemplate","Accepted","Accepted"],paid:["smsPaid","Paid","Payment received"],unpaid:["smsUnpaid","Accepted","Not paid reminder"],unclear:["smsUnclear","Accepted","Receipt unclear"],declined:["smsDeclined","Declined","Declined"]};
+$("rows").onclick=e=>{const b=e.target.closest("[data-m],[data-r],[data-d]");if(!b)return;
+ const r=all.find(x=>x.uid===(b.dataset.id||b.dataset.r||b.dataset.d));if(!r)return;
+ if(b.dataset.r){showImg(r.receipt);return}
+ if(b.dataset.d){if(confirm("Delete "+r.player+"'s registration? This cannot be undone.")){claude.use("db").then(db=>db.collection("registrations").doc(r.uid).delete()).catch(()=>toast("Could not delete."))}return}
+ const mk=b.dataset.m,c=SM[mk];if(!c)return;
+ const paid=isPaid(r),data={last:c[2]+" SMS",lastAt:new Date().toISOString()};
+ if(mk==="paid"){data.status="Paid";data.pay="Paid"}
+ else if(mk==="unpaid"){data.status="Accepted";data.pay="Unpaid"}
+ else if(mk==="declined"){data.status="Declined";data.pay="Unpaid"}
+ else if(!paid){data.status="Accepted";data.pay="Unpaid"}
+ upd(r.uid,data);
+ location.href="sms:+"+ph(r.phone)+(/iPhone|iPad/.test(navigator.userAgent)?"&":"?")+"body="+encodeURIComponent(fill(SITE[c[0]],r))};
 $('csv').onclick=async()=>{const k=["created","player","age","school","grade","branch","residence","plan","amount","pay","pos","medical","medNotes","parent","phone","email","status"];
  const c=[k.join(",")].concat(all.map(r=>k.map(x=>'"'+String(r[x]??"").replace(/"/g,'""')+'"').join(","))).join("\n");
  try{const d=await claude.use("downloads");await d.save({filename:"registrations.csv",data:c})}catch(e){}};
